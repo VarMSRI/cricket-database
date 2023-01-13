@@ -19,8 +19,8 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-//        List<Tournament> tournaments = this.cricBaseService.getTournaments();
-//        tournaments.forEach(System.out::println);
+        List<Tournament> tournaments = this.cricBaseService.getTournaments();
+        tournaments.forEach(System.out::println);
 //
 //        List<Match> matches = this.cricBaseService.getMatches();
 //        matches.forEach(System.out::println);
