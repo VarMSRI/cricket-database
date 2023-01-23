@@ -24,7 +24,7 @@ public class BowlingAnalysis {
 
     @Column(name = "OversBowled")
     @JsonProperty("oversBowled")
-    private int oversBowled;
+    private float oversBowled;
 
     @Column(name = "RunsConceded")
     @JsonProperty("runsConceded")
