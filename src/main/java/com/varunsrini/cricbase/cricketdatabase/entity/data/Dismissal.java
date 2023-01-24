@@ -3,9 +3,7 @@ package com.varunsrini.cricbase.cricketdatabase.entity.data;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.varunsrini.cricbase.cricketdatabase.entity.data.embeddedkeys.DismissalId;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
@@ -19,6 +17,8 @@ import java.io.Serializable;
 @Accessors(fluent = true)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@Getter
+@Setter
 public class Dismissal implements Serializable {
 
     @EmbeddedId

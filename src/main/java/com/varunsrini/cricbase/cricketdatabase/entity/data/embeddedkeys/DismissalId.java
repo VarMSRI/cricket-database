@@ -1,10 +1,8 @@
 package com.varunsrini.cricbase.cricketdatabase.entity.data.embeddedkeys;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -15,6 +13,8 @@ import java.util.Objects;
 @Accessors(fluent = true)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@Getter
+@Setter
 public class DismissalId implements Serializable {
     @Column(name = "MatchID")
     @JsonProperty("matchId")

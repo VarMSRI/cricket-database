@@ -1,9 +1,7 @@
 package com.varunsrini.cricbase.cricketdatabase.entity.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
@@ -16,6 +14,8 @@ import javax.persistence.Table;
 @Accessors(fluent = true)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@Getter
+@Setter
 public class PlayerBowlingSummary {
 
     @Id
@@ -29,7 +29,7 @@ public class PlayerBowlingSummary {
 
     @Column(name = "RunsConceded")
     @JsonProperty("runs_conceded")
-    private int unsConceded;
+    private int runsConceded;
 
     @Column(name = "Wickets")
     @JsonProperty("wickets")
@@ -46,4 +46,5 @@ public class PlayerBowlingSummary {
     @Column(name = "BowlingStrikeRate")
     @JsonProperty("bowling_strike_rate")
     private float bowlingStrikeRate;
+    
 }

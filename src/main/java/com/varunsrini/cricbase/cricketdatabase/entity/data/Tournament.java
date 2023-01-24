@@ -1,9 +1,7 @@
 package com.varunsrini.cricbase.cricketdatabase.entity.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 import javax.persistence.*;
 
@@ -12,6 +10,8 @@ import javax.persistence.*;
 @Accessors(fluent = true)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@Getter
+@Setter
 public class Tournament {
 
     @Id
