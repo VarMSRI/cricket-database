@@ -1,5 +1,6 @@
 package com.varunsrini.cricbase.cricketdatabase.entity.data;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.varunsrini.cricbase.cricketdatabase.entity.data.embeddedkeys.AnalysisId;
 import lombok.AccessLevel;
@@ -20,6 +21,8 @@ import javax.persistence.Table;
 public class BowlingAnalysis {
 
     @EmbeddedId
+    @JsonInclude
+    @JsonProperty("id")
     private AnalysisId analysisId;
 
     @Column(name = "OversBowled")
