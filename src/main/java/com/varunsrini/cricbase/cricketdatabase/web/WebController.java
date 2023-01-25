@@ -291,5 +291,12 @@ public class WebController {
         return new ResponseEntity<>(playerFieldingSummaryOptional.get(), HttpStatus.OK);
     }
 
+    @GetMapping("/playerSummary/{playerId}")
+    public ResponseEntity<PlayerSummary> getPlayerSummaryById(@PathVariable("playerId") long playerId){
+        Optional<PlayerSummary> playerSummaryOptional = this.cricBaseService.getPlayerSummaryById(playerId);
+        if(playerSummaryOptional.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(playerSummaryOptional.get(), HttpStatus.OK);
+    }
 
 }

@@ -240,4 +240,15 @@ public class CricBaseService {
         return Optional.of(playerFieldingSummary);
     }
 
+    public Optional<PlayerSummary> getPlayerSummaryById(long playerId) {
+        Optional<PlayerBowlingSummary> playerBowlingSummaryOptional = this.getPlayerBowlingSummary(playerId);
+        Optional<PlayerBattingSummary> playerBattingSummaryOptional = this.getPlayerBattingSummary(playerId);
+        Optional<PlayerFieldingSummary> playerFieldingSummaryOptional = this.getPlayerFieldingSummary(playerId);
+        Optional<Player> playerOptional = this.getPlayer(playerId);
+
+        if(playerOptional.isEmpty()){
+            return Optional.empty();
+        }
+        return Optional.of(new PlayerSummary(playerId, playerOptional.get(), playerBattingSummaryOptional.get(), playerBowlingSummaryOptional.get(), playerFieldingSummaryOptional.get()));
+    }
 }
