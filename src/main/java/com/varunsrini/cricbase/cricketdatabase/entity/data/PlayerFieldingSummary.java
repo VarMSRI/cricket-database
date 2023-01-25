@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "PLAYER_FIELDING_SUMMARY")
@@ -35,4 +36,11 @@ public class PlayerFieldingSummary {
     @JsonProperty("stumpings")
     private int stumpings;
 
+    public static PlayerFieldingSummary of(List<FieldingAnalysis> fieldingAnalysisList, long playerId) {
+        int catches = fieldingAnalysisList.stream().map(fieldingAnalysis -> fieldingAnalysis.catches()).reduce(0,Integer::sum).intValue();
+        int runOuts = fieldingAnalysisList.stream().map(fieldingAnalysis -> fieldingAnalysis.runOuts()).reduce(0, Integer::sum).intValue();
+        int stumpings = fieldingAnalysisList.stream().map(fieldingAnalysis -> fieldingAnalysis.stumpings()).reduce(0, Integer::sum).intValue();
+
+        return new PlayerFieldingSummary(playerId, catches, runOuts, stumpings);
+    }
 }

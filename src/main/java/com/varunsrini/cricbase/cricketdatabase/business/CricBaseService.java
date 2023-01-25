@@ -25,6 +25,12 @@ public class CricBaseService {
     private final MatchRepository matchRepository;
     private final DismissalRepository dismissalRepository;
 
+    private final PlayerBowlingSummaryRepository playerBowlingSummaryRepository;
+
+    private final PlayerBattingSummaryRepository playerBattingSummaryRepository;
+
+    private final PlayerFieldingSummaryRepository playerFieldingSummaryRepository;
+
     public List<Player> getPlayers(){
         Iterable<Player> players = this.playerRepository.findAll();
         List<Player> playerList = new ArrayList<>();
@@ -138,6 +144,13 @@ public class CricBaseService {
         this.battingAnalysisRepository.delete(battingAnalysis);
     }
 
+    private List<BattingAnalysis> getAllBattingAnalysisByPlayerId(long playerId) {
+        Iterable<BattingAnalysis> battingAnalyses = this.battingAnalysisRepository.findAllByAnalysisIdPlayerId(playerId);
+        List<BattingAnalysis> battingAnalysisList = new ArrayList<>();
+        battingAnalyses.forEach(battingAnalysis -> battingAnalysisList.add(battingAnalysis));
+        return battingAnalysisList;
+    }
+
     public List<BowlingAnalysis> getBowlingAnalyses(){
         Iterable<BowlingAnalysis> bowlingAnalyses = this.bowlingAnalysisRepository.findAll();
         List<BowlingAnalysis> bowlingAnalysisList = new ArrayList<>();
@@ -157,6 +170,13 @@ public class CricBaseService {
         this.bowlingAnalysisRepository.delete(bowlingAnalysis);
     }
 
+    public List<BowlingAnalysis> getAllBowlingAnalysisByPlayerId(long playerId){
+        Iterable<BowlingAnalysis> bowlingAnalysisIterable = this.bowlingAnalysisRepository.findAllByAnalysisIdPlayerId(playerId);
+        List<BowlingAnalysis> bowlingAnalysisList = new ArrayList<>();
+        bowlingAnalysisIterable.forEach(bowlingAnalysis -> bowlingAnalysisList.add(bowlingAnalysis));
+        return bowlingAnalysisList;
+    }
+
     public List<FieldingAnalysis> getFieldingAnalyses(){
         Iterable<FieldingAnalysis> fieldingAnalyses = this.fieldingAnalysisRepository.findAll();
         List<FieldingAnalysis> fieldingAnalysisList = new ArrayList<>();
@@ -174,6 +194,50 @@ public class CricBaseService {
 
     public void deleteFieldingAnalysis(FieldingAnalysis fieldingAnalysis){
         this.fieldingAnalysisRepository.delete(fieldingAnalysis);
+    }
+
+    private List<FieldingAnalysis> getAllFieldingAnalysisByPlayerId(long playerId) {
+        List<FieldingAnalysis> fieldingAnalysisList = new ArrayList<>();
+        Iterable<FieldingAnalysis> fieldingAnalyses = this.fieldingAnalysisRepository.findAllByAnalysisIdPlayerId(playerId);
+        fieldingAnalyses.forEach(fieldingAnalysis -> fieldingAnalysisList.add(fieldingAnalysis));
+        return fieldingAnalysisList;
+    }
+
+    public Optional<PlayerBowlingSummary> getPlayerBowlingSummary(long playerId) {
+        Optional<PlayerBowlingSummary> playerBowlingSummaryOptional = this.playerBowlingSummaryRepository.findById(playerId);
+        if(playerBowlingSummaryOptional.isPresent())
+            return playerBowlingSummaryOptional;
+        List<BowlingAnalysis> bowlingAnalysisList = getAllBowlingAnalysisByPlayerId(playerId);
+        if(bowlingAnalysisList.isEmpty())
+            return Optional.empty();
+        PlayerBowlingSummary playerBowlingSummary = PlayerBowlingSummary.of(bowlingAnalysisList, playerId);
+        playerBowlingSummaryRepository.save(playerBowlingSummary);
+        return Optional.of(playerBowlingSummary);
+    }
+
+    public Optional<PlayerBattingSummary> getPlayerBattingSummary(long playerId) {
+        Optional<PlayerBattingSummary> playerBattingSummaryOptional = this.playerBattingSummaryRepository.findById(playerId);
+        if(playerBattingSummaryOptional.isPresent())
+            return playerBattingSummaryOptional;
+        List<BattingAnalysis> battingAnalysisList = this.getAllBattingAnalysisByPlayerId(playerId);
+        if(battingAnalysisList.isEmpty())
+            return Optional.empty();
+        PlayerBattingSummary playerBattingSummary = PlayerBattingSummary.of(battingAnalysisList, playerId);
+        this.playerBattingSummaryRepository.save(playerBattingSummary);
+        return Optional.of(playerBattingSummary);
+    }
+
+
+    public Optional<PlayerFieldingSummary> getPlayerFieldingSummary(long playerId) {
+        Optional<PlayerFieldingSummary> playerFieldingSummaryOptional = this.playerFieldingSummaryRepository.findById(playerId);
+        if(playerFieldingSummaryOptional.isPresent())
+            return playerFieldingSummaryOptional;
+        List<FieldingAnalysis> fieldingAnalysisList = this.getAllFieldingAnalysisByPlayerId(playerId);
+        if(fieldingAnalysisList.isEmpty())
+            return Optional.empty();
+        PlayerFieldingSummary playerFieldingSummary = PlayerFieldingSummary.of(fieldingAnalysisList, playerId);
+        this.playerFieldingSummaryRepository.save(playerFieldingSummary);
+        return Optional.of(playerFieldingSummary);
     }
 
 }

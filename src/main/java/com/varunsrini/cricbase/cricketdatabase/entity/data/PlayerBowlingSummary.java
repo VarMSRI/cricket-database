@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "PLAYER_BOWLING_SUMMARY")
@@ -46,5 +47,16 @@ public class PlayerBowlingSummary {
     @Column(name = "BowlingStrikeRate")
     @JsonProperty("bowling_strike_rate")
     private float bowlingStrikeRate;
-    
+
+    public static PlayerBowlingSummary of(List<BowlingAnalysis> bowlingAnalysisList, long playerId){
+        float overs = bowlingAnalysisList.stream().map(bowlingAnalysis -> bowlingAnalysis.oversBowled()).reduce(0.0F, Float::sum).floatValue();
+        int maidens = bowlingAnalysisList.stream().map(bowlingAnalysis -> bowlingAnalysis.maidens()).reduce(0, Integer::sum).intValue();
+        int runs = bowlingAnalysisList.stream().map(bowlingAnalysis -> bowlingAnalysis.runsConceded()).reduce(0, Integer::sum).intValue();
+        int wickets = bowlingAnalysisList.stream().map(bowlingAnalysis -> bowlingAnalysis.wickets()).reduce(0, Integer::sum).intValue();
+
+        float average = wickets != 0? runs/wickets: null;
+        float strikeRate = wickets != 0? overs*6/wickets: null;
+
+        return new PlayerBowlingSummary(playerId, overs, runs, wickets, maidens, average, strikeRate);
+    }
 }

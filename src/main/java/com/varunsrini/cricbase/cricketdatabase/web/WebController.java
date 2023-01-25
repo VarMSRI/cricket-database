@@ -266,4 +266,30 @@ public class WebController {
         this.cricBaseService.deleteFieldingAnalysis(fieldingAnalysis.get());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/playerBowlingSummary/{playerId}")
+    public ResponseEntity<PlayerBowlingSummary> getPlayerBowlingSummaryById(@PathVariable("playerId") long playerId){
+        Optional<PlayerBowlingSummary> playerBowlingSummaryOptional = this.cricBaseService.getPlayerBowlingSummary(playerId);
+        if(playerBowlingSummaryOptional.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<PlayerBowlingSummary>(playerBowlingSummaryOptional.get(), HttpStatus.OK);
+    }
+
+    @GetMapping("/playerBattingSummary/{playerId}")
+    public ResponseEntity<PlayerBattingSummary> getPlayerBattingSummaryById(@PathVariable("playerId") long playerId){
+        Optional<PlayerBattingSummary> playerBattingSummaryOptional = this.cricBaseService.getPlayerBattingSummary(playerId);
+        if(playerBattingSummaryOptional.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(playerBattingSummaryOptional.get(), HttpStatus.OK);
+    }
+
+    @GetMapping("/playerFieldingSummary/{playerId}")
+    public ResponseEntity<PlayerFieldingSummary> getPlayerFieldingSummaryById(@PathVariable("playerId") long playerId){
+        Optional<PlayerFieldingSummary> playerFieldingSummaryOptional = this.cricBaseService.getPlayerFieldingSummary(playerId);
+        if(playerFieldingSummaryOptional.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(playerFieldingSummaryOptional.get(), HttpStatus.OK);
+    }
+
+
 }
