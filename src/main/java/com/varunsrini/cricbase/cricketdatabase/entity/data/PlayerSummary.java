@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class PlayerSummary {
 
+    @JsonProperty("playerId")
     private long playerId;
 
     @JsonProperty("Player")
