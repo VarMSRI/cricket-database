@@ -299,4 +299,9 @@ public class WebController {
         return new ResponseEntity<>(playerSummaryOptional.get(), HttpStatus.OK);
     }
 
+    @GetMapping("/playerSummary/team/{teamId}")
+    public ResponseEntity<List<PlayerSummary>> getAllPlayerSummaryByTeamId(@PathVariable("teamId") long teamId){
+        return new ResponseEntity<>(this.cricBaseService.getPlayerSummaryByTeamId(teamId), HttpStatus.OK);
+    }
+
 }

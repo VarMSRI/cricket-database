@@ -54,8 +54,8 @@ public class PlayerBowlingSummary {
         int runs = bowlingAnalysisList.stream().map(bowlingAnalysis -> bowlingAnalysis.runsConceded()).reduce(0, Integer::sum).intValue();
         int wickets = bowlingAnalysisList.stream().map(bowlingAnalysis -> bowlingAnalysis.wickets()).reduce(0, Integer::sum).intValue();
 
-        float average = wickets != 0? runs/wickets: null;
-        float strikeRate = wickets != 0? overs*6/wickets: null;
+        float average = wickets != 0? ((float) runs/(float) wickets): 0.0F;
+        float strikeRate = wickets != 0? overs*6/wickets: 0.0F;
 
         return new PlayerBowlingSummary(playerId, overs, runs, wickets, maidens, average, strikeRate);
     }

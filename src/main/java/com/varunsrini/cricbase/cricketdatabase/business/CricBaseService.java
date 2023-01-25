@@ -251,4 +251,11 @@ public class CricBaseService {
         }
         return Optional.of(new PlayerSummary(playerId, playerOptional.get(), playerBattingSummaryOptional.get(), playerBowlingSummaryOptional.get(), playerFieldingSummaryOptional.get()));
     }
+
+    public List<PlayerSummary> getPlayerSummaryByTeamId(long teamId) {
+        List<Long> playerIds = this.playerRepository.findPlayerIdsByTeamId(teamId, 23);
+        List<PlayerSummary> playerSummaryList = new ArrayList<>();
+        playerIds.forEach(playerId -> playerSummaryList.add(getPlayerSummaryById(playerId).get()));
+        return playerSummaryList;
+    }
 }

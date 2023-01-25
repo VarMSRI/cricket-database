@@ -58,8 +58,8 @@ public class PlayerBattingSummary {
         int notOuts = (int) battingAnalysisList.stream().filter(battingAnalysis -> battingAnalysis.dismissalStatus().equalsIgnoreCase("notout")).count();
         int runs = battingAnalysisList.stream().map(battingAnalysis -> battingAnalysis.runsScored()).reduce(0,Integer::sum).intValue();
         int balls = battingAnalysisList.stream().map(battingAnalysis -> battingAnalysis.ballsFaced()).reduce(0,Integer::sum).intValue();
-        float average = (innings - notOuts) == 0? null : (float) runs/(innings - notOuts);
-        float strikeRate = (float) runs/(float) balls;
+        float average = (innings - notOuts) == 0? 0.0F : (float) runs/(innings - notOuts);
+        float strikeRate = innings != 0? (float) runs/(float) balls: 0.0F;
         return new PlayerBattingSummary(playerId, matches, innings, notOuts, runs, balls, average, strikeRate*100);
     }
 }
