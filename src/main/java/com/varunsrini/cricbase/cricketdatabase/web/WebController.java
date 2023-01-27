@@ -304,4 +304,13 @@ public class WebController {
         return new ResponseEntity<>(this.cricBaseService.getPlayerSummaryByTeamId(teamId), HttpStatus.OK);
     }
 
+    @GetMapping("/matchData/{matchId}")
+    public ResponseEntity<MatchData> getMatchDataByMatchId(@PathVariable("matchId") long matchId){
+        return new ResponseEntity<>(this.cricBaseService.getMatchDataByMatchId(matchId), HttpStatus.OK);
+    }
+
+    @GetMapping("/matchSummary/{matchId}")
+    public ResponseEntity<MatchSummary> getMatchSummaryByMatchId(@PathVariable("matchId") long matchId){
+        return new ResponseEntity<>(this.cricBaseService.getMatchSummaryByMatchId(matchId), HttpStatus.OK);
+    }
 }

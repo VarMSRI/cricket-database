@@ -6,7 +6,6 @@ import com.varunsrini.cricbase.cricketdatabase.entity.data.embeddedkeys.Dismissa
 import com.varunsrini.cricbase.cricketdatabase.entity.repository.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -264,5 +263,20 @@ public class CricBaseService {
         List<PlayerSummary> playerSummaryList = new ArrayList<>();
         playerIds.forEach(playerId -> playerSummaryList.add(getPlayerSummaryById(playerId).get()));
         return playerSummaryList;
+    }
+
+    public MatchData getMatchDataByMatchId(long matchId){
+        Iterable<BattingAnalysis> battingAnalysisIterable = this.battingAnalysisRepository.findAllByAnalysisIdMatchId(matchId);
+        Iterable<BowlingAnalysis> bowlingAnalysisIterable = this.bowlingAnalysisRepository.findAllByAnalysisIdMatchId(matchId);
+        Iterable<Dismissal> dismissalIterable = this.dismissalRepository.findAllByDismissalIdMatchId(matchId);
+
+        return MatchData.of(matchId, battingAnalysisIterable, bowlingAnalysisIterable, dismissalIterable);
+    }
+
+    public MatchSummary getMatchSummaryByMatchId(long matchId) {
+        Iterable<BattingAnalysis> battingAnalysisIterable = this.battingAnalysisRepository.findAllByAnalysisIdMatchId(matchId);
+        Iterable<BowlingAnalysis> bowlingAnalysisIterable = this.bowlingAnalysisRepository.findAllByAnalysisIdMatchId(matchId);
+
+        return MatchSummary.of(matchId, battingAnalysisIterable, bowlingAnalysisIterable);
     }
 }
