@@ -6,6 +6,7 @@ import com.varunsrini.cricbase.cricketdatabase.entity.data.embeddedkeys.Dismissa
 import com.varunsrini.cricbase.cricketdatabase.entity.repository.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class CricBaseService {
     private final PlayerBattingSummaryRepository playerBattingSummaryRepository;
 
     private final PlayerFieldingSummaryRepository playerFieldingSummaryRepository;
+    private final PlayerSummaryRepository playerSummaryRepository;
 
     public List<Player> getPlayers(){
         Iterable<Player> players = this.playerRepository.findAll();
@@ -241,6 +243,9 @@ public class CricBaseService {
     }
 
     public Optional<PlayerSummary> getPlayerSummaryById(long playerId) {
+        Optional<PlayerSummary> playerSummaryOptional = this.playerSummaryRepository.findById(playerId);
+        if(playerSummaryOptional.isPresent())
+            return playerSummaryOptional;
         Optional<PlayerBowlingSummary> playerBowlingSummaryOptional = this.getPlayerBowlingSummary(playerId);
         Optional<PlayerBattingSummary> playerBattingSummaryOptional = this.getPlayerBattingSummary(playerId);
         Optional<PlayerFieldingSummary> playerFieldingSummaryOptional = this.getPlayerFieldingSummary(playerId);
@@ -249,7 +254,9 @@ public class CricBaseService {
         if(playerOptional.isEmpty()){
             return Optional.empty();
         }
-        return Optional.of(new PlayerSummary(playerId, playerOptional.get(), playerBattingSummaryOptional.get(), playerBowlingSummaryOptional.get(), playerFieldingSummaryOptional.get()));
+        PlayerSummary playerSummary = new PlayerSummary(playerId, playerOptional.get(), playerBattingSummaryOptional.get(), playerBowlingSummaryOptional.get(), playerFieldingSummaryOptional.get());
+        this.playerSummaryRepository.save(playerSummary);
+        return Optional.of(playerSummary);
     }
 
     public List<PlayerSummary> getPlayerSummaryByTeamId(long teamId) {
